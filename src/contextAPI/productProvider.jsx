@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
-import Toast from "../common/toast"; 
+import React, { createContext, useContext, useState, useEffect } from "react";
+import Toast from "../common/toast";
 
 const ProductContext = createContext();
 
@@ -7,12 +7,31 @@ export const ProductProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
+  const [productData, setProductData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        const response = await fetch('https://fakestoreapi.com/products');
+        const data = await response.json();
+        console.log("Data: ", data);
+        setProductData(data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProductData();
+  }, []);
+
+  console.log("Product Data: ", productData)
   const addToCart = (product) => {
     setCart((prevCart) => {
       // Check if item already exists
       const existingItem = prevCart.find((item) => item.id === product.id);
-      
+
       if (existingItem) {
         return prevCart.map((item) =>
           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
@@ -46,7 +65,7 @@ export const ProductProvider = ({ children }) => {
   };
 
   return (
-    <ProductContext.Provider value={{ cart, addToCart, removeItem, increaseQuantity, decreaseQuantity }}>
+    <ProductContext.Provider value={{ cart, addToCart, removeItem, increaseQuantity, decreaseQuantity, productData, isLoading }}>
       {children}
       {showToast && <Toast message={toastMsg} onClose={() => setShowToast(false)} />}
     </ProductContext.Provider>
