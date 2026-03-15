@@ -5,13 +5,15 @@ import { FaUser, FaEnvelope, FaLock, FaUserPlus } from "react-icons/fa";
 
 const Registration = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { register } = useAuth();
 
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: ""
   });
+
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -22,15 +24,19 @@ const Registration = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(formData);
-    console.log("Registered User: ", formData);
-    navigate("/profile");
+    setError("");
+    const result = register(formData);
+    if (result.success) {
+      navigate("/");
+    } else {
+      setError(result.message);
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4 py-12">
       <div className="w-full max-w-md">
-        
+
         {/* Header Section */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl shadow-xl shadow-indigo-200 text-white mb-4">
@@ -44,8 +50,14 @@ const Registration = () => {
 
         {/* Form Card */}
         <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-8">
+          {error && (
+            <div className="bg-red-50 text-red-600 p-3 rounded-xl text-sm font-semibold mb-4 border border-red-200">
+              {error}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-5">
-            
+
             {/* Full Name Field */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
@@ -104,7 +116,7 @@ const Registration = () => {
             </div>
 
             {/* Submit Button */}
-            <button 
+            <button
               type="submit"
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-indigo-200 transition-all active:scale-[0.98] mt-2"
             >

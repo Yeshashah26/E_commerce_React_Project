@@ -11,6 +11,8 @@ function Login() {
     email: "",
     password: ""
   });
+  
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setLoginData((prev) => ({
@@ -21,8 +23,13 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    login(loginData);
-    navigate("/profile");
+    setError("");
+    const result = login(loginData);
+    if (result.success) {
+      navigate("/profile");
+    } else {
+      setError(result.message);
+    }
   };
 
   return (
@@ -41,6 +48,12 @@ function Login() {
 
         {/* Card Container */}
         <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-8">
+          {error && (
+            <div className="bg-red-50 text-red-600 p-3 rounded-xl text-sm font-semibold mb-4 border border-red-200">
+              {error}
+            </div>
+          )}
+          
           <form onSubmit={handleLogin} className="space-y-5">
             
             {/* Email Field */}
