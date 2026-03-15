@@ -11,7 +11,7 @@ function Login() {
     email: "",
     password: ""
   });
-  
+
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -26,7 +26,7 @@ function Login() {
     setError("");
     const result = login(loginData);
     if (result.success) {
-      navigate("/profile");
+      navigate("/products");
     } else {
       setError(result.message);
     }
@@ -41,7 +41,7 @@ function Login() {
             <FaStore size={32} />
           </div>
           <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            React E-Commerce
+            E-Commerce
           </h2>
           <p className="text-slate-500 mt-2">Please enter your details to sign in</p>
         </div>
@@ -53,9 +53,9 @@ function Login() {
               {error}
             </div>
           )}
-          
+
           <form onSubmit={handleLogin} className="space-y-5">
-            
+
             {/* Email Field */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
@@ -100,7 +100,7 @@ function Login() {
             </div>
 
             {/* Submit Button */}
-            <button 
+            <button
               type="submit"
               className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-indigo-200 transition-all active:scale-[0.98]"
             >

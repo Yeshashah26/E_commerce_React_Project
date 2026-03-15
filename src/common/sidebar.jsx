@@ -82,7 +82,8 @@ const Sidebar = () => {
           {/* Header/Logo */}
           <div className="h-16 flex items-center justify-between px-6 border-b border-slate-200 bg-white">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-indigo-600 rounded shadow-indigo-200 shadow-lg flex items-center justify-center text-white font-bold">R</div>
+              {/* <div className="w-8 h-8 bg-indigo-600 rounded shadow-indigo-200 shadow-lg flex items-center justify-center text-white font-bold"></div> */}
+              <img src="/logo.png" alt="Logo" className="w-8 h-8" />
               <span className="font-bold text-slate-800 tracking-tight">E-Commerce</span>
             </div>
             <button onClick={() => setIsOpen(false)} className="lg:hidden text-slate-400 hover:text-slate-600">
